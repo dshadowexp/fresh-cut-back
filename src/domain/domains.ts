@@ -1,8 +1,9 @@
 import { UserRole } from "./enums";
+import { ModelId } from "./types";
 
 export interface Auth {
     authId: string,
-    userId: string,
+    userId: ModelId,
     role: UserRole
 }
 
