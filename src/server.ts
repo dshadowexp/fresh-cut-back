@@ -1,22 +1,32 @@
 import { getExpressApplication } from "./app";
 import { createServer as createHttpServer } from 'http';
-import { Server as SocketServer } from 'socket.io';
+import { Server as IOServer } from 'socket.io';
+import { RedisCache } from "./databases/redisCache";
+import { MongoDB } from "./databases/mongoDB";
+import { RestAPIRoutes } from "./initializations/apiRoutes";
+import { SocketsHandler } from "./initializations/socketHandlers";
+import { appLogger } from "./loggers/winstonLoggers";
 
 process.on('uncaughtException', (error) => {
-    console.log(error);
-    console.error('Uncaught Exception', error);
+    appLogger.error('Uncaught Exception', error);
     process.exit(1);
 });
 
 const PORT = process.env.PORT || 3030;
 
-const expressApp = getExpressApplication();
-const server = createHttpServer(expressApp);
-const ioServer = new SocketServer(server, { cors: { origin: '*' }});
+const application = getExpressApplication();
+const server = createHttpServer(application);
+const socketServer = new IOServer(server, { cors: { origin: '*' }});
 
 (async () => {
+    await RedisCache.getInstance().configure();
+    await MongoDB.getInstance().configure();
+    
+    RestAPIRoutes.getInstance().initialize(application);
+    SocketsHandler.getInstance().initialize(socketServer);
+    
     server.listen(PORT, () => {
-        console.debug(`Server ${process.pid}: http://localhost:${PORT}`)
+        appLogger.info(`Server ${process.pid}: http://localhost:${PORT}`)
     })
 })();
 

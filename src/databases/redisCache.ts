@@ -1,6 +1,6 @@
 import { RedisClientOptions, createClient } from 'redis';
 import { CACHE_EXPIRATION } from "../domain/consts";
-import { ICacheService, IConfigurationService } from '../domain/interfaces';
+import { ICacheService, IConfigurationService } from '../domain/services';
 
 const redisSocketOptions = {
     host: '',
@@ -14,9 +14,9 @@ const redisClientOptions: RedisClientOptions = {
     socket: redisSocketOptions
 }
 
-export class CacheDatabase implements IConfigurationService, ICacheService {
+export class RedisCache implements IConfigurationService, ICacheService {
     isConfigured: boolean;
-    private static instance: CacheDatabase;
+    private static instance: RedisCache;
     private client: ReturnType<typeof createClient>;
 
     private constructor() {
@@ -24,11 +24,11 @@ export class CacheDatabase implements IConfigurationService, ICacheService {
         this.client = createClient(redisClientOptions);
     }
 
-    public static getInstance(): CacheDatabase {
-        if (!CacheDatabase.instance) {
-            CacheDatabase.instance = new CacheDatabase();
+    public static getInstance(): RedisCache {
+        if (!RedisCache.instance) {
+            RedisCache.instance = new RedisCache();
         }
-        return CacheDatabase.instance;
+        return RedisCache.instance;
     }
 
     private enforceConfiguration() {

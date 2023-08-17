@@ -1,4 +1,4 @@
-import { CacheDatabase } from "../databases/redisCache";
+import { RedisCache } from "../databases/redisCache";
 import { HttpStatus } from "../domain/enums";
 import { AuthenticatedRequest, MiddlewareFunction } from "../domain/types";
 import FirebaseAdmin from "../integrations/firebase";

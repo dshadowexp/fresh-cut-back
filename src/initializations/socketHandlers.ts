@@ -1,26 +1,25 @@
 import { Server, Socket } from "socket.io";
 import { IInitialize } from "../domain/interfaces";
 import { createAdapter } from "@socket.io/redis-adapter";
-import { CacheDatabase } from "../databases/redisCache";
+import { RedisCache } from "../databases/redisCache";
 
-
-export class IOSockets implements IInitialize<Server> {
+export class SocketsHandler implements IInitialize<Server> {
     isInitialized: boolean;
-    private static instance: IOSockets;
+    private static instance: SocketsHandler;
 
     private constructor() {
         this.isInitialized = false;
     }
 
-    public static getInstance(): IOSockets {
-        if (!IOSockets.instance) {
-            IOSockets.instance = new IOSockets();
+    public static getInstance(): SocketsHandler {
+        if (!SocketsHandler.instance) {
+            SocketsHandler.instance = new SocketsHandler();
         }
-        return IOSockets.instance;
+        return SocketsHandler.instance;
     }
 
     initialize(io: Server) {
-        const pubClient = CacheDatabase.getInstance().getClient();
+        const pubClient = RedisCache.getInstance().getClient();
         const subClient = pubClient.duplicate();
         io.adapter(createAdapter(pubClient, subClient));
 
