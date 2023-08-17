@@ -1,5 +1,6 @@
 import { connect } from "mongoose";
 import { IConfigurationService } from "../domain/services";
+import { appLogger } from "../loggers/winstonLoggers";
 
 export class MongoDB implements IConfigurationService {
     isConfigured: boolean;
@@ -22,12 +23,12 @@ export class MongoDB implements IConfigurationService {
         }
 
         try {
-            const dbURI = ``;
+            const dbURI = process.env.MONGODB_URL as string;
             await connect(dbURI);
-            console.debug('MongoDB connected');
+            appLogger.debug('MongoDB connected');
             this.isConfigured = true;
         } catch (error) {
-            console.error('MongoDB Error', error);
+            appLogger.error('MongoDB Error', error);
             process.exit(1);
         }
     }

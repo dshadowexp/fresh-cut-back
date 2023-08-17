@@ -11,17 +11,10 @@ import { Model } from "mongoose";
  * Queue Definition Worker Function Defintions
  */
 
-export const redisConfig = {
-    host: '',
-    port: 0,
-    password: "",
-    url: ""
-};
-
 const connectConfig: RedisOptions = {
-    host: redisConfig.host,
-    port: redisConfig.port,
-    password: redisConfig.password,
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT as string),
+    password: process.env.REDIS_PASSWORD,
     maxRetriesPerRequest: null,
 }
 

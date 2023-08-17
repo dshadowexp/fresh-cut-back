@@ -1,18 +1,17 @@
 import { RedisClientOptions, createClient } from 'redis';
 import { CACHE_EXPIRATION } from "../domain/consts";
 import { ICacheService, IConfigurationService } from '../domain/services';
-
-const redisSocketOptions = {
-    host: '',
-    port: 5494,
-}
+import { appLogger } from '../loggers/winstonLoggers';
 
 const redisClientOptions: RedisClientOptions = {
-    url: "",
-    username: "",
-    password: "",
-    socket: redisSocketOptions
-}
+    url: process.env.REDIS_URL,
+    username: process.env.REDIS_USERNAME,
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: parseInt(process.env.REDIS_PORT as string),
+    }
+};
 
 export class RedisCache implements IConfigurationService, ICacheService {
     isConfigured: boolean;
@@ -47,13 +46,13 @@ export class RedisCache implements IConfigurationService, ICacheService {
         }
 
         this.client.on('error', (error: any) => {
-            console.error('Redis Client Error', error);
+            appLogger.error('Redis Client Error', error);
             process.exit(1);
         });
     
         this.client.on('connect', () => {
             this.isConfigured = true;
-            console.debug('Redis Client Connected');
+            appLogger.debug('Redis Client Connected');
         })
 
         await this.client.connect();
