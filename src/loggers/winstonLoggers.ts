@@ -59,6 +59,14 @@ export const appLogger = createLogger({
     ]
 })
 
+export const queuesLogger = createLogger({
+    defaultMeta: { service: 'queues-service' },
+    format: combinedFormat,
+    transports: [
+        new transports.Console(),
+    ]
+})
+
 export const usersLogger = createLogger({
     defaultMeta: { service: 'users-service' },
     format: combinedFormat,

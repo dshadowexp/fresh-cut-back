@@ -1,4 +1,4 @@
-import { IUser } from "./domains";
+import { User } from "./domains";
 import { Money } from "./types";
 
 export interface IConfigurationService {
@@ -27,7 +27,7 @@ export interface IDataService<D> {
 }
 
 export interface IPaymentProcessor {
-    createCustomer: (customerData: Pick<IUser, 'firstName' | 'lastName' | 'email' | 'phone'>) => Promise<string>,
+    createCustomer: (customerData: Pick<User, 'firstName' | 'lastName' | 'email' | 'phone'>) => Promise<string>,
     addMethod: (customerId: string, methodId: any) => Promise<any>
     getMethods: (customerId: string) => Promise<any>
     initPayment: (data: any) => Promise<any>,

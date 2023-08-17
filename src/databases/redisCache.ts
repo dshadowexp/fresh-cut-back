@@ -17,7 +17,7 @@ const redisClientOptions: RedisClientOptions = {
 export class RedisCache implements IConfigurationService, ICacheService {
     isConfigured: boolean;
     private static instance: RedisCache;
-    private client: ReturnType<typeof createClient>;
+    private readonly client: ReturnType<typeof createClient>;
 
     private constructor() {
         this.isConfigured = false;

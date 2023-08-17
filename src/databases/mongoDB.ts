@@ -22,7 +22,7 @@ export class MongoDB implements IConfigurationService {
         }
 
         try {
-            const dbURI = `mongodb://mongo:7i40iGYSDslPFJxMcy4g@containers-us-west-185.railway.app:5815`;
+            const dbURI = ``;
             await connect(dbURI);
             console.debug('MongoDB connected');
             this.isConfigured = true;

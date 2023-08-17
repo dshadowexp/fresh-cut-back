@@ -1,12 +1,16 @@
-import { UserRole } from "./enums"
+import { UserRole } from "./enums";
 
-export interface IUser {
+export interface Auth {
+    authId: string,
+    userId: string,
+    role: UserRole
+}
+
+export interface User {
     firstName: string,
     lastName: string,
-    dateOfBirth: Date,
     email: string,
     phone: string,
     photo: string,
-    language: string
     role: UserRole
 }

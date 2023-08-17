@@ -26,7 +26,7 @@ const socketServer = new IOServer(server, { cors: { origin: '*' }});
     SocketsHandler.getInstance().initialize(socketServer);
     
     server.listen(PORT, () => {
-        appLogger.info(`Server ${process.pid}: http://localhost:${PORT}`)
+        appLogger.debug(`Server ${process.pid}: http://localhost:${PORT}`);
     })
 })();
 

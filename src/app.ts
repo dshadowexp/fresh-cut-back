@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Express, urlencoded } from 'express';
 import helmet from 'helmet';
 import corsFilter from './middlewares/corsFilter';
